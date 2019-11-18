@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+<Title>BMI計算ページ</Title>
+</head>
+<body>
+    <p id="outputBMI"></p>
+    <p id="outputIdealWeight"></p>
+    <label>身長(cm)</label>
+
+<input type="number" id="height" label="身長" oninput="calcBMI()" ></br>
+<label>体重(kg)</label>
+<input type="number" id="weight" label="体重" oninput="calcBMI()">
+</body>
+<script>
+    function calcBMI(){
+    var height=document.getElementById('height').value/100
+    var weight=document.getElementById('weight').value
+    var bmi=weight/(height*height)
+    var outputBMI=document.getElementById('outputBMI')
+    outputBMI.textContent="結果"+bmi
+    calcWeightToIdeal(bmi,height,weight)
+    }
+    function calcWeightToIdeal(bmi,height,weight){
+        var outputIdealWeight=document.getElementById("outputIdealWeight")
+        var idealWeight=25*(height*height)
+        outputIdealWeight.textContent="理想体重との差"+(idealWeight-weight)
+    }
+</script>
+</html>
