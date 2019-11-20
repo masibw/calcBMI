@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+<Title>BMI計算ページ</Title>
+</head>
+<body>
+    <span id="output"><p id="outputBMI"></p></span>
+
+    <p id="outputIdealWeight"></p>
+    <label>身長(cm)</label>
+
+<input type="number" id="height" label="身長" oninput="calcBMI()" ></br>
+<label>体重(kg)</label>
+<input type="number" id="weight" label="体重" oninput="calcBMI()">
+</body>
+<script>
+    function calcBMI(){
+    var height=document.getElementById('height').value/100
+    var weight=document.getElementById('weight').value
+    var bmi=weight/(height*height).toFixed(2)
+    var outputBMI=document.getElementById('outputBMI')
+    if(bmi<16){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せすぎ"
+    } else if(bmi>=16 && bmi<17){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せ"
+    }else if(bmi>=17 && bmi<18.5){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せ気味"
+    }else if(bmi>=18.5 && bmi<25){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"普通体重"
+    }else if(bmi>=25 && bmi<30){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"前肥満"
+    }else if(bmi>=30 && bmi<35){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2) + "肥満(1度)"
+    }else if(bmi>35 && bmi<40){
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"肥満(2度)"
+    }else{
+        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2) + "肥満(3度)"
+    }
+    var bmiBar=document.getElementById('bmiBar')
+    console.log(bmiBar.value);
+    bmiBar.value=bmi;
+    calcWeightToIdeal(bmi,height,weight)
+    }
+    function calcWeightToIdeal(bmi,height,weight){
+        var outputIdealWeight=document.getElementById("outputIdealWeight")
+       
+        if(bmi<18.50){
+             var idealWeight = 18.5 * (height * height)
+        outputIdealWeight.textContent="標準までの体重の差-"+(idealWeight-weight).toFixed(2)+"Kg"
+        console.log("low")
+        }else if(bmi>25){
+             var idealWeight = 25 * (height * height)
+            outputIdealWeight.textContent = "標準までの体重の差+" + (weight-idealWeight).toFixed(2) + "Kg"
+             console.log("high")
+        }else{
+            outputIdealWeight.textContent=""
+             console.log("none")
+        }
+    }
+</script>
+</html>

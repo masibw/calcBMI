@@ -1,60 +1,98 @@
 <!DOCTYPE html>
 <head>
 <Title>BMI計算ページ</Title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="jquery.range.css">
+<script src="jquery.range.js"></script>
 </head>
 <body>
+    <div id="wrapper">
+        <div id="bmiWrapper">
+    <img id="outputImage" src="images/calcBMI.jpg" width="300" height="200">
     <span id="output"><p id="outputBMI"></p></span>
-
+   
+<input type="hidden" id="bmiBar" value="20" />
     <p id="outputIdealWeight"></p>
-    <label>身長(cm)</label>
 
+    <label>身長(cm)</label>
 <input type="number" id="height" label="身長" oninput="calcBMI()" ></br>
 <label>体重(kg)</label>
 <input type="number" id="weight" label="体重" oninput="calcBMI()">
+</div>
+</div>
 </body>
 <script>
     function calcBMI(){
-    var height=document.getElementById('height').value/100
-    var weight=document.getElementById('weight').value
+    var height=$('#height').val()/100
+    var weight=$('#weight').val()
     var bmi=weight/(height*height).toFixed(2)
-    var outputBMI=document.getElementById('outputBMI')
+    
     if(bmi<16){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せすぎ"
+       $('#outputBMI').text( "結果 BMI:" + bmi.toFixed(2)+"痩せすぎ")
+       $('#outputImage').attr('src', 'images/yasesugi.png')
     } else if(bmi>=16 && bmi<17){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せ"
+       $('#outputBMI').text( "結果 BMI:" + bmi.toFixed(2)+"痩せ")
+        $('#outputImage').attr('src', 'images/yase.png')
     }else if(bmi>=17 && bmi<18.5){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"痩せ気味"
+        $('#outputBMI').text("結果 BMI:" + bmi.toFixed(2)+"痩せ気味")
+         $('#outputImage').attr('src', 'images/yasegimi.png')
     }else if(bmi>=18.5 && bmi<25){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"普通体重"
+          $('#outputBMI').text( "結果 BMI:" + bmi.toFixed(2)+"普通体重")
+           $('#outputImage').attr('src', 'images/hutsu.png')
     }else if(bmi>=25 && bmi<30){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"前肥満"
+          $('#outputBMI').text( "結果 BMI:" + bmi.toFixed(2)+"前肥満")
+           $('#outputImage').attr('src', 'images/zenhiman.png')
     }else if(bmi>=30 && bmi<35){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2) + "肥満(1度)"
+         $('#outputBMI').text("結果 BMI:" + bmi.toFixed(2) + "肥満(1度)")
+          $('#outputImage').attr('src', 'images/himan1.png')
     }else if(bmi>35 && bmi<40){
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2)+"肥満(2度)"
+         $('#outputBMI').text("結果 BMI:" + bmi.toFixed(2)+"肥満(2度)")
+          $('#outputImage').attr('src', 'images/himan2.png')
     }else{
-        outputBMI.textContent = "結果 BMI:" + bmi.toFixed(2) + "肥満(3度)"
+         $('#outputBMI').text( "結果 BMI:" + bmi.toFixed(2) + "肥満(3度)")
+          $('#outputImage').attr('src', 'images/himan3.png')
     }
-    var bmiBar=document.getElementById('bmiBar')
-    console.log(bmiBar.value);
-    bmiBar.value=bmi;
+    $('#bmiBar').jRange('setValue',String(bmi));
     calcWeightToIdeal(bmi,height,weight)
     }
     function calcWeightToIdeal(bmi,height,weight){
-        var outputIdealWeight=document.getElementById("outputIdealWeight")
        
         if(bmi<18.50){
              var idealWeight = 18.5 * (height * height)
-        outputIdealWeight.textContent="標準までの体重の差-"+(idealWeight-weight).toFixed(2)+"Kg"
-        console.log("low")
+       $("#outputIdealWeight").text("標準までの体重の差-"+(idealWeight-weight).toFixed(2)+"Kg")
         }else if(bmi>25){
              var idealWeight = 25 * (height * height)
-            outputIdealWeight.textContent = "標準までの体重の差+" + (weight-idealWeight).toFixed(2) + "Kg"
-             console.log("high")
+            $("#outputIdealWeight").text("標準までの体重の差+" + (weight-idealWeight).toFixed(2) + "Kg")
+           
         }else{
-            outputIdealWeight.textContent=""
-             console.log("none")
+            $("#outputIdealWeight").text("");
         }
     }
+
+    $('#bmiBar').jRange({
+            from: 0,
+            to:40 ,
+            step: 0.5,
+            scale: [0, 16, 17, 18.5, 25,30,35,40],
+            format: '%s',
+            width: 300,
+            showLabels: true,
+            disable:true
+        });
 </script>
+<style>
+    #wrapper{
+        position:relative;
+        width:80%;
+        height:100vh;
+        margin:auto;
+    }
+    #bmiWrapper{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+  </style>
 </html>
